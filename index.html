@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Vietnam Internship Journey</title>
+<style>
+:root{
+  --green:#536b50;--dark:#26352f;--terracotta:#bd7056;--gold:#d7aa57;
+  --cream:#f7f0e2;--paper:#fffdf8;--muted:#707873;--line:#d8cfbe;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--dark);font-family:Georgia,serif;line-height:1.7}
+.top{position:sticky;top:0;z-index:50;background:rgba(247,240,226,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 6vw;display:flex;justify-content:space-between;align-items:center}
+.logo{font:800 .85rem Arial,sans-serif;letter-spacing:.18em;color:var(--green)}
+nav a{margin-left:22px;text-decoration:none;color:var(--dark);font:600 .78rem Arial,sans-serif}
+.hero{min-height:88vh;padding:7vw;display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:center;background:radial-gradient(circle at 10% 15%,#e8d7a8 0,transparent 25%),var(--cream)}
+.eyebrow{font:700 .72rem Arial,sans-serif;text-transform:uppercase;letter-spacing:.2em;color:var(--terracotta)}
+h1{font-size:clamp(3.5rem,8vw,7.5rem);line-height:.87;font-weight:500;margin:18px 0 25px}
+h2{font-size:clamp(2.4rem,5vw,4.8rem);line-height:.98;font-weight:500;margin:8px 0 20px}
+h3{font-size:1.8rem;font-weight:500;margin:8px 0}
+p.lead{font-size:1.12rem;color:var(--muted);max-width:650px}
+.hero-photo,.photo-placeholder{background:#ded6c7;overflow:hidden;position:relative}
+.hero-photo{height:600px;border-radius:48% 48% 5% 5%;box-shadow:0 25px 55px #26352f22}
+.hero-photo img,.photo-placeholder img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-placeholder{min-height:330px;border:1.5px dashed #9d9789;display:flex;align-items:center;justify-content:center;text-align:center;color:#8b877d;font-family:Arial,sans-serif}
+.placeholder-text{padding:30px}
+.section{padding:100px 7vw}
+.section.alt{background:#eae1d0}
+.wrap{max-width:1150px;margin:auto}
+.intro-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:55px;align-items:start}
+.card{background:var(--paper);padding:40px;box-shadow:0 15px 45px #26352f12}
+.editable{display:inline-block;min-width:90px;border-bottom:1.5px dashed var(--terracotta);padding:0 5px;outline:none}
+.editable:empty:before{content:attr(data-placeholder);color:#aaa69b;font-style:italic}
+.textbox{width:100%;min-height:150px;padding:15px;background:#fffefa;border:1px dashed #bbb3a3;outline:none;resize:vertical;font:1.02rem Georgia,serif;color:var(--dark)}
+.textbox::placeholder{color:#aaa69b;font-style:italic}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:25px}
+.meta div{border-top:1px solid var(--line);padding-top:12px}
+.label{font:700 .65rem Arial,sans-serif;letter-spacing:.15em;color:var(--terracotta);text-transform:uppercase}
+.timeline{position:relative;margin-top:45px}
+.timeline:before{content:"";position:absolute;left:20px;top:0;bottom:0;width:1px;background:#bdb5a5}
+.step{position:relative;padding:0 0 48px 70px}
+.dot{position:absolute;left:11px;top:5px;width:19px;height:19px;border-radius:50%;background:var(--gold);border:5px solid var(--cream)}
+.step .card{padding:28px}
+.photo-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin-top:40px}
+.photo-grid .photo-placeholder:nth-child(1){grid-column:span 7}
+.photo-grid .photo-placeholder:nth-child(2){grid-column:span 5;transform:translateY(40px)}
+.photo-grid .photo-placeholder:nth-child(3){grid-column:span 5}
+.photo-grid .photo-placeholder:nth-child(4){grid-column:span 7}
+.reflection{max-width:900px;margin:auto;text-align:center}
+.quote{font-size:clamp(2rem,4vw,3.8rem);line-height:1.15;font-style:italic;color:var(--green)}
+
+.photo-btn{margin-top:14px;background:var(--terracotta);color:#fff;border:0;border-radius:3px;padding:12px 16px;min-height:44px;font:700 .76rem Arial,sans-serif;cursor:pointer;touch-action:manipulation}
+.photo-icon{font-size:2rem;margin-bottom:5px}
+.upload-photo-card{cursor:pointer}
+.upload-photo-card.has-photo{padding:0;display:block}
+.upload-photo-card.has-photo img{width:100%;height:100%;min-height:330px;object-fit:cover;display:block}
+
+.photo-pen{
+  position:absolute!important;
+  right:10px!important;
+  bottom:10px!important;
+  left:auto!important;
+  transform:none!important;
+  width:38px!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:0!important;
+  border-radius:50%!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:17px!important;
+  line-height:1!important;
+  z-index:10!important;
+  box-shadow:0 3px 10px rgba(0,0,0,.22)!important;
+}
+.photo-pen span{display:none}
+
+.photo-change{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:2;white-space:nowrap}
+
+
+.photo-card-editable{position:relative;overflow:hidden}
+.photo-card-editable.has-photo{padding:0;display:block}
+.photo-card-editable.has-photo img{width:100%;height:100%;min-height:330px;object-fit:cover;display:block}
+
+
+
+
+/* Gentle travel-journal scroll animations */
+@media (prefers-reduced-motion: no-preference){
+  .scroll-reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1);
+    will-change:opacity,transform;
+  }
+  .scroll-reveal.revealed{
+    opacity:1;
+    transform:none;
+  }
+  .photo-reveal{
+    opacity:0;
+    transform:translateY(32px) scale(.97);
+    transition:opacity .9s ease, transform .9s cubic-bezier(.22,1,.36,1);
+    will-change:opacity,transform;
+  }
+  .photo-reveal.revealed{
+    opacity:1;
+    transform:none;
+  }
+  .reveal-delay-1{transition-delay:.08s}
+  .reveal-delay-2{transition-delay:.16s}
+  .reveal-delay-3{transition-delay:.24s}
+  .reveal-delay-4{transition-delay:.32s}
+}
+
+.hero-photo-picker{
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:rgba(255,255,255,.9);
+  box-shadow:0 2px 8px rgba(0,0,0,.18);
+  z-index:6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  overflow:hidden;
+}
+.hero-photo-picker span{
+  font-size:16px;
+  line-height:1;
+  color:#555;
+  pointer-events:none;
+}
+.hero-photo-picker input[type="file"]{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  cursor:pointer;
+  margin:0;
+}
+.native-photo-field{
+  margin-top:12px;
+  text-align:center;
+  font-family:Arial,sans-serif;
+}
+.native-photo-field input[type="file"]{
+  display:block;
+  width:100%;
+  max-width:260px;
+  margin:10px auto 0;
+  min-height:44px;
+  font:600 13px Arial,sans-serif;
+}
+.native-photo-field input[type="file"]::file-selector-button{
+  border:0;
+  background:var(--terracotta);
+  color:#fff;
+  padding:11px 15px;
+  border-radius:4px;
+  font:700 12px Arial,sans-serif;
+  margin-right:8px;
+  cursor:pointer;
+}
+.photo-slot{
+  position:relative;
+}
+.photo-slot img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.photo-slot 
+.hero-photo-picker{
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  margin:0;
+  padding:0;
+  background:rgba(255,253,248,.95);
+  border-radius:5px;
+  box-shadow:0 3px 12px rgba(0,0,0,.18);
+  z-index:5;
+}
+.hero-photo-picker label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 10px;
+  font:700 11px Arial,sans-serif;
+}
+.hero-photo-picker input[type="file"]{
+  width:auto;
+  max-width:180px;
+  margin:0;
+  min-height:40px;
+}
+
+.native-photo-field{
+  padding:10px 12px 15px;
+  background:rgba(255,253,248,.96);
+}
+
+.upload-box{margin-top:35px;padding:25px;text-align:center;border:2px dashed #9c988d;background:#ffffff55;font-family:Arial,sans-serif}
+button{background:var(--terracotta);border:0;color:white;padding:13px 20px;cursor:pointer;font:700 .78rem Arial,sans-serif}
+footer{background:var(--dark);color:#eee5d6;text-align:center;padding:55px 7vw}
+@media(max-width:800px){
+  nav{display:none}.hero{grid-template-columns:1fr;padding-top:60px}.hero-photo{height:430px}
+  .intro-grid{grid-template-columns:1fr}.meta{grid-template-columns:1fr}
+  .photo-grid .photo-placeholder,.photo-grid .photo-placeholder:nth-child(1),.photo-grid .photo-placeholder:nth-child(2),.photo-grid .photo-placeholder:nth-child(3),.photo-grid .photo-placeholder:nth-child(4){grid-column:span 12;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="logo">VIETNAM · INTERNSHIP JOURNEY</div>
+  <nav>
+    <a href="#about">ABOUT ME</a>
+    <a href="#internship">INTERNSHIP</a>
+    <a href="#experience">EXPERIENCE</a>
+    <a href="#reflection">REFLECTION</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">My internship · Vietnam</div>
+    <h1>One journey.<br><em>Many</em><br>memories.</h1>
+    <p class="lead">A visual journal about my internship, my experiences in Vietnamese tourism, the people I met, the places I discovered, and everything I learned along the way.</p>
+    <a href="#about"><button>EXPLORE MY JOURNEY ↓</button></a>
+  </div>
+  <div class="hero-photo photo-slot" id="heroPhoto">
+    <img class="photo-reveal" id="heroImage" class="preview-photo" src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=85" alt="Vietnam travel">
+    <label class="hero-photo-picker" title="Change main photo" aria-label="Change main photo">
+      <span>✎</span>
+      <input id="heroInput" type="file" accept="image/*">
+    </label>
+  </div>
+</section>
+
+<section class="section" id="about">
+<div class="wrap">
+  <div class="eyebrow">01 · About me</div>
+  <h2>Before the journey began...</h2>
+  <div class="intro-grid">
+    <div>
+      <div class="photo-placeholder class="scroll-reveal" photo-slot" id="profileBox">
+        <div class="placeholder-text">
+          <div class="photo-icon">👤</div>
+          <strong>YOUR PHOTO</strong><br>
+          <span>Portrait / personal photo</span>
+          <div class="native-photo-field">
+            <input id="profileInput" type="file" accept="image/*">
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="card class="scroll-reveal"">
+      <h3 contenteditable="true">Hello, I'm <span class="editable" contenteditable="true" data-placeholder="your name"></span>.</h3>
+      <p contenteditable="true">I am a <span class="editable" data-placeholder="student / major"></span> from <span class="editable" data-placeholder="university / country"></span>. During my internship in Vietnam, I had the opportunity to experience the tourism industry from the inside while also discovering a new culture and way of life.</p>
+      <p contenteditable="true">I chose Vietnam because <span class="editable" data-placeholder="why Vietnam?"></span>.</p>
+      <p><strong>Before arriving, I expected...</strong></p>
+      <div class="textbox" contenteditable="true">Write a short introduction about yourself, your background, and what brought you to Vietnam.</div>
+      <div class="meta">
+        <div><div class="label">Internship period</div><span class="editable" contenteditable="true" data-placeholder="dates"></span></div>
+        <div><div class="label">Location</div><span class="editable" contenteditable="true" data-placeholder="city / place"></span></div>
+        <div><div class="label">Organization</div><span class="editable" contenteditable="true" data-placeholder="company"></span></div>
+        <div><div class="label">Position</div><span class="editable" contenteditable="true" data-placeholder="intern role"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="section alt" id="internship">
+<div class="wrap">
+  <div class="eyebrow">02 · My internship</div>
+  <h2>Inside my work life in Vietnam.</h2>
+  <p class="lead">Turn this section into the professional part of your report: your company, responsibilities, projects and daily work.</p>
+
+  <div class="card" style="margin-top:35px">
+    <h3 contenteditable="true">About the organization</h3>
+    <div class="textbox" contenteditable="true">Introduce your company or organization. What does it do? What kind of tourism services, destinations, customers, or projects does it work with?</div>
+  </div>
+
+  <div class="timeline" id="experience">
+    <div class="step"><div class="dot"></div><div class="card">
+      <div class="label">Chapter 01</div><h3 contenteditable="true">Getting started</h3>
+      <p contenteditable="true">My first days were about <span class="editable" data-placeholder="orientation / meeting the team"></span>.</p>
+      <div class="textbox" contenteditable="true">Write about your first impression, colleagues, workplace, and what you learned at the beginning.</div>
+    </div></div>
+
+    <div class="step"><div class="dot"></div><div class="card">
+      <div class="label">Chapter 02</div><h3 contenteditable="true">What I did</h3>
+      <p contenteditable="true">My main responsibilities included <span class="editable" data-placeholder="tasks"></span>.</p>
+      <div class="textbox" contenteditable="true">Describe your main tasks, projects, events, customers, research, content creation, guiding, marketing, or other internship activities.</div>
+    </div></div>
+
+    <div class="step"><div class="dot"></div><div class="card">
+      <div class="label">Chapter 03</div><h3 contenteditable="true">A project / moment I remember</h3>
+      <div class="textbox" contenteditable="true">Tell the story of one important project or memorable day. What happened? What was your role? What made it meaningful?</div>
+    </div></div>
+  </div>
+</div>
+</section>
+
+<section class="section" id="experience">
+<div class="wrap">
+  <div class="eyebrow">03 · Life beyond the desk</div>
+  <h2>Experiencing Vietnam.</h2>
+  <p class="lead">Your internship report can also show how being in Vietnam shaped your understanding of tourism, culture and everyday life. On iPhone/iPad, tap “Add / Change Photo” to choose from Photos or take a new picture.</p>
+
+  <div class="photo-grid" id="gallery">
+    <div class="photo-placeholder photo-slot" data-label="Workplace / team">
+      <div class="placeholder-text">
+        <div class="photo-icon">📷</div>
+        <strong>WORKPLACE / TEAM</strong><br>
+        <span>Choose a photo from your phone</span>
+        <div class="native-photo-field">
+          <input id="workplaceInput" type="file" accept="image/*">
+        </div>
+      </div>
+    </div>
+
+    <div class="photo-placeholder photo-slot" data-label="Vietnamese food / culture">
+      <div class="placeholder-text">
+        <div class="photo-icon">📷</div>
+        <strong>VIETNAMESE FOOD / CULTURE</strong><br>
+        <span>Choose a photo from your phone</span>
+        <div class="native-photo-field">
+          <input id="foodInput" type="file" accept="image/*">
+        </div>
+      </div>
+    </div>
+
+    <div class="photo-placeholder photo-slot" data-label="A place you visited">
+      <div class="placeholder-text">
+        <div class="photo-icon">📷</div>
+        <strong>A PLACE YOU VISITED</strong><br>
+        <span>Choose a photo from your phone</span>
+        <div class="native-photo-field">
+          <input id="placeInput" type="file" accept="image/*">
+        </div>
+      </div>
+    </div>
+
+    <div class="photo-placeholder photo-slot" data-label="Your favorite memory">
+      <div class="placeholder-text">
+        <div class="photo-icon">📷</div>
+        <strong>YOUR FAVORITE MEMORY</strong><br>
+        <span>Choose a photo from your phone</span>
+        <div class="native-photo-field">
+          <input id="memoryInput" type="file" accept="image/*">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:70px">
+    <h3 contenteditable="true">A moment outside work</h3>
+    <p contenteditable="true">One experience that helped me understand Vietnam differently was <span class="editable" data-placeholder="place / activity"></span>.</p>
+    <div class="textbox" contenteditable="true">Describe a cultural experience, trip, meal, conversation, festival, city, or everyday moment that influenced you.</div>
+  </div>
+</div>
+</section>
+
+<section class="section alt" id="reflection">
+<div class="reflection">
+  <div class="eyebrow">04 · What I learned</div>
+  <h2>More than an internship.</h2>
+  <p class="lead" style="margin:auto">Use the spaces below for your personal reflection.</p>
+  <div class="card" style="margin-top:40px;text-align:left">
+    <p><strong>Professional skills I developed</strong></p>
+    <div class="textbox" contenteditable="true">Communication, teamwork, customer service, tourism knowledge, problem solving, marketing, organization, etc.</div>
+    <p style="margin-top:30px"><strong>The biggest challenge I faced</strong></p>
+    <div class="textbox" contenteditable="true">What was difficult, and how did you handle it?</div>
+    <p style="margin-top:30px"><strong>What Vietnam taught me</strong></p>
+    <div class="textbox" contenteditable="true">Reflect on culture, people, tourism, independence, communication, adaptability, or anything else that changed your perspective.</div>
+  </div>
+  <p class="quote" style="margin-top:80px">“I came to Vietnam for an internship, but I leave with a story.”</p>
+</div>
+</section>
+
+<section class="section">
+<div class="wrap">
+  <div class="eyebrow">05 · My memories</div>
+  <h2>Keep the little things.</h2>
+  <p class="lead">Add your own photos to create the final scrapbook page.</p>
+  <div class="upload-box">
+    <strong>＋ Add your photos</strong><br>
+    <small>Select multiple images. They will be added to this page automatically.</small><br><br>
+    <input id="photoInput" type="file" accept="image/*" multiple>
+  </div>
+  <div class="photo-grid" id="userGallery"></div>
+</div>
+</section>
+
+<footer>
+  <div style="font-size:1.5rem">MY VIETNAM JOURNEY</div>
+  <div style="opacity:.7;font:12px Arial,sans-serif;margin-top:8px">Internship report · memories · experiences · learning</div>
+</footer>
+
+<script>
+/*
+  IMPORTANT: Main photo fields now use native <input type="file"> controls,
+  like section 05. This is intentional for iPhone/iPad reliability.
+*/
+function previewSingle(input, box, altText, keepPicker=true){
+  input.addEventListener('change', ()=>{
+    const file=input.files && input.files[0];
+    if(!file || !file.type.startsWith('image/')) return;
+
+    const url=URL.createObjectURL(file);
+    let img=box.querySelector('img.preview-photo');
+    if(!img){
+      img=document.createElement('img');
+      img.className='preview-photo';
+      img.alt=altText;
+      box.insertBefore(img, box.firstChild);
+    }
+    img.src=url;
+
+    const placeholder=box.querySelector('.placeholder-text');
+    if(placeholder) placeholder.style.display='none';
+
+    if(keepPicker){
+      let field=box.querySelector('.native-photo-field');
+      if(!field){
+        field=document.createElement('div');
+        field.className='native-photo-field';
+        box.appendChild(field);
+      }
+      if(!field.contains(input)) field.appendChild(input);
+    }
+  });
+}
+
+const heroInput=document.getElementById('heroInput');
+const heroPhoto=document.getElementById('heroPhoto');
+heroInput.addEventListener('change',()=>{
+  const file=heroInput.files && heroInput.files[0];
+  if(!file || !file.type.startsWith('image/')) return;
+  const oldImg=document.getElementById('heroImage');
+  if(oldImg) oldImg.src=URL.createObjectURL(file);
+});
+
+const profileInput=document.getElementById('profileInput');
+const profileBox=document.getElementById('profileBox');
+previewSingle(profileInput, profileBox, 'My portrait');
+
+[
+  ['workplaceInput','Workplace / team'],
+  ['foodInput','Vietnamese food / culture'],
+  ['placeInput','A place you visited'],
+  ['memoryInput','My favorite memory']
+].forEach(([id,label])=>{
+  const input=document.getElementById(id);
+  const box=input.closest('.photo-slot');
+  previewSingle(input, box, label);
+});
+
+/* Section 05: multiple native uploads, with each image remaining editable. */
+const photoInput=document.getElementById('photoInput');
+const userGallery=document.getElementById('userGallery');
+
+function addMemoryPhoto(file){
+  const card=document.createElement('div');
+  card.className='photo-placeholder photo-slot';
+  const img=document.createElement('img');
+  img.className='preview-photo';
+  img.alt='My memory';
+  img.src=URL.createObjectURL(file);
+  card.appendChild(img);
+
+  const field=document.createElement('div');
+  field.className='native-photo-field';
+  const label=document.createElement('label');
+  label.innerHTML='<strong>Change this photo</strong>';
+  const input=document.createElement('input');
+  input.type='file';
+  input.accept='image/*';
+  input.setAttribute('capture','environment');
+  label.appendChild(input);
+  field.appendChild(label);
+  card.appendChild(field);
+  userGallery.appendChild(card);
+
+  previewSingle(input, card, 'My memory');
+}
+
+photoInput.addEventListener('change',()=>{
+  [...photoInput.files].forEach(file=>{
+    if(file.type.startsWith('image/')) addMemoryPhoto(file);
+  });
+});
+
+
+/* Scroll reveal: content gently fades/slides in as it enters the viewport. */
+if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const revealItems = document.querySelectorAll(
+    '.scroll-reveal, .photo-reveal, .photo-slot, .photo-placeholder, .card, h1, h2, h3, p, blockquote'
+  );
+  revealItems.forEach((el, index) => {
+    if (!el.classList.contains('scroll-reveal') && !el.classList.contains('photo-reveal')) {
+      el.classList.add(el.querySelector('img') ? 'photo-reveal' : 'scroll-reveal');
+    }
+    if (index % 4 === 1) el.classList.add('reveal-delay-1');
+    if (index % 4 === 2) el.classList.add('reveal-delay-2');
+    if (index % 4 === 3) el.classList.add('reveal-delay-3');
+  });
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -35px 0px' });
+
+  revealItems.forEach(el => observer.observe(el));
+} else {
+  document.querySelectorAll('.scroll-reveal,.photo-reveal').forEach(el => el.classList.add('revealed'));
+}
+
+/* Save/export */
+async function imageToDataURL(img){
+  try{
+    const response=await fetch(img.src);
+    const blob=await response.blob();
+    return await new Promise(resolve=>{
+      const reader=new FileReader();
+      reader.onload=()=>resolve(reader.result);
+      reader.onerror=()=>resolve(img.src);
+      reader.readAsDataURL(blob);
+    });
+  }catch(e){ return img.src; }
+}
+
+async function exportReport(){
+  const clone=document.documentElement.cloneNode(true);
+
+  const liveEditables=[...document.querySelectorAll('[contenteditable="true"]')];
+  const cloneEditables=[...clone.querySelectorAll('[contenteditable="true"]')];
+  liveEditables.forEach((el,i)=>{
+    if(cloneEditables[i]) cloneEditables[i].innerHTML=el.innerHTML;
+  });
+
+  const liveImgs=[...document.images];
+  const cloneImgs=[...clone.images];
+  for(let i=0;i<liveImgs.length;i++){
+    cloneImgs[i].src=await imageToDataURL(liveImgs[i]);
+  }
+
+  const output='<!DOCTYPE html>\n'+clone.outerHTML;
+  const blob=new Blob([output],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='my_vietnam_internship_report.html';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+
+let saveBtn=document.getElementById('saveReportBtn');
+if(!saveBtn){
+  saveBtn=document.createElement('button');
+  saveBtn.id='saveReportBtn';
+  document.body.appendChild(saveBtn);
+}
+saveBtn.type='button';
+saveBtn.textContent='💾 SAVE MY REPORT';
+saveBtn.style.cssText='position:fixed;right:16px;bottom:16px;z-index:1000;background:var(--terracotta);color:white;border:0;border-radius:999px;padding:14px 18px;font:700 12px Arial,sans-serif;box-shadow:0 8px 25px rgba(0,0,0,.2);min-height:48px;cursor:pointer;';
+saveBtn.onclick=exportReport;
+</script>
+</body>
+</html>
